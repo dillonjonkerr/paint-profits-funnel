@@ -2436,7 +2436,7 @@
 <script>
   /* Disable browser scroll restoration — always start at top */
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  window.scrollTo(0, 0);
+  window.addEventListener('load', function() { window.scrollTo(0, 0); });
 
   (function () {
     // ── LOGOS ARRAY ──────────────────────────────────────────────────────────
@@ -3623,7 +3623,7 @@
         step.classList.add('active');
         if (!skipFocus) {
           var firstInput = step.querySelector('input[type="text"], input[type="tel"]');
-          if (firstInput) { setTimeout(function() { firstInput.focus(); }, 60); }
+          if (firstInput) { setTimeout(function() { firstInput.focus({ preventScroll: true }); }, 60); }
         }
       }
       current = n;
@@ -3636,7 +3636,7 @@
       var textInput = step.querySelector('input[type="text"], input[type="tel"]');
       if (textInput && !textInput.value.trim()) {
         textInput.classList.add('qinput-error');
-        textInput.focus();
+        textInput.focus({ preventScroll: true });
         setTimeout(function() { textInput.classList.remove('qinput-error'); }, 1600);
         return;
       }

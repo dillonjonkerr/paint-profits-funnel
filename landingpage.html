@@ -3726,13 +3726,8 @@
   })();
 
   /* ===== FB PIXEL — CTA CLICKS ===== */
-  document.querySelectorAll('[data-track="cta-click"]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      if (typeof fbq === 'function') {
-        fbq('track', 'Lead', { content_name: btn.dataset.tier || 'hero-cta' });
-      }
-    });
-  });
+  // Lead event intentionally NOT fired here — fires on survey submit instead
+  // (see SURVEY GATE section above)
 
   /* ===== FB PIXEL — CALENDLY BOOKING ===== */
   window.addEventListener('message', function (e) {

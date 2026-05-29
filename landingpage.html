@@ -2369,8 +2369,13 @@
       /* Heading size floor */
       .hero-h1 { font-size: clamp(1.75rem, 8vw, 3rem); }
 
-      /* Polaroid overflow guard */
-      .polaroid-stack { max-width: 100% !important; overflow-x: hidden; }
+      /* Polaroid — allow horizontal scroll, contain at section level */
+      .polaroid-stack { max-width: 100% !important; overflow-x: auto; }
+      .pca-expo { overflow-x: clip; }
+
+      /* Section CTA button — tighter on mobile */
+      .section-cta { padding-top: 24px; }
+      .section-cta .btn { padding: 14px 28px; font-size: 0.9375rem; }
     }
 
     /* ===== MOBILE ADDITIONS (≤ 480px) ===== */
@@ -3906,6 +3911,26 @@
 
 <script>
   if (typeof lucide !== 'undefined') { lucide.createIcons(); }
+</script>
+<script>
+(function() {
+  function initPolaroidAutoScroll() {
+    var stack = document.querySelector('.polaroid-stack');
+    if (!stack || window.innerWidth > 768) return;
+    var STEP = 260;
+    var paused = false;
+    stack.addEventListener('touchstart', function() { paused = true; }, { passive: true });
+    stack.addEventListener('touchend', function() { setTimeout(function() { paused = false; }, 2500); }, { passive: true });
+    setInterval(function() {
+      if (paused) return;
+      var maxScroll = stack.scrollWidth - stack.clientWidth;
+      var next = stack.scrollLeft + STEP;
+      if (next > maxScroll) next = 0;
+      stack.scrollTo({ left: next, behavior: 'smooth' });
+    }, 3000);
+  }
+  document.addEventListener('DOMContentLoaded', initPolaroidAutoScroll);
+})();
 </script>
 </body>
 </html>

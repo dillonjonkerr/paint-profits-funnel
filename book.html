@@ -6,10 +6,9 @@
   <title>Book Your Discovery Call — Paint & Profits</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
   <!-- Calendly widget CSS -->
 
@@ -90,7 +89,6 @@
 
     /* ===== RESET ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    h1, h2, h3 { word-break: break-word; overflow-wrap: break-word; }
     html { scroll-behavior: smooth; }
     body {
       background: var(--bg-primary);
@@ -590,20 +588,16 @@
       .trust-chips { flex-direction: column; align-items: center; }
       #hero { padding: 48px 0 48px; }
     }
-
-    /* ===== MOBILE ADDITIONS ===== */
-    @media (max-width: 680px) {
-      #scarcity-bar { padding: 0 36px 0 12px; }
-      #scarcity-bar .bar-text { white-space: normal; text-align: center; line-height: 1.3; }
-      .calendly-inline-widget { min-width: 100% !important; max-width: 100% !important; height: 600px !important; }
-      #hero { padding: 48px 0 40px; }
-    }
-    @media (max-width: 480px) {
-      #scarcity-bar { padding: 0 30px 0 8px; }
-      .calendly-inline-widget { height: 550px !important; }
-    }
   </style>
-  <script defer src="/_vercel/speed-insights/script.js"></script>
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FS66H4SSS6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FS66H4SSS6', {send_page_view: true});
+  </script>
 </head>
 <!--
   ╔══════════════════════════════════════════════════════════╗
@@ -633,7 +627,7 @@
   <!-- ===== SCARCITY BAR ===== -->
   <div id="scarcity-bar" role="banner">
     <i data-lucide="zap"></i>
-    OUR CLIENTS AVERAGE 128 INBOUND LEADS PER MONTH
+    OUR CLIENTS AVERAGE 128 INBOUND LEADS P.M FROM US
     <i data-lucide="zap"></i>
     <button class="bar-dismiss" aria-label="Dismiss">&times;</button>
   </div>
@@ -905,11 +899,65 @@
           if (typeof fbq === 'function') {
             fbq('track', 'Schedule');
           }
-          window.location.href = '/confirmed';
+          window.location.href = '03-confirmed.html';
         }
       }
     });
   </script>
 
+
+  <!-- Paint & Profits Funnel Tracker -->
+  <script>
+  (function(){
+    var ENDPOINT='https://funnel-analytics.dillon-f6b.workers.dev/track',PAGE_ID='book';
+    var sid=sessionStorage.getItem('pp_sid');
+    if(!sid){sid='pp_'+Date.now()+'_'+Math.random().toString(36).slice(2,9);sessionStorage.setItem('pp_sid',sid);}
+    function send(t,v){var p={session_id:sid,page:PAGE_ID,event_type:t,value:v,referrer:document.referrer||null,ua:navigator.userAgent};if(t==='time_on_page'||t==='exit'){navigator.sendBeacon(ENDPOINT,JSON.stringify(p));}else{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p),keepalive:true}).catch(function(){});}}
+    send('pageview',null);
+    var t0=Date.now();
+    function bye(){var s=Math.round((Date.now()-t0)/1000);if(s>1)send('time_on_page',s);}
+    window.addEventListener('beforeunload',bye);
+    document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')bye();});
+    var ms=new Set();
+    window.addEventListener('scroll',function(){var st=window.scrollY||document.documentElement.scrollTop,dh=document.documentElement.scrollHeight-window.innerHeight;if(dh<=0)return;var p=Math.round(st/dh*100);[25,50,75,100].forEach(function(m){if(p>=m&&!ms.has(m)){ms.add(m);send('scroll',m);}});},{passive:true});
+    document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('form').forEach(function(f){var started=false;f.addEventListener('focusin',function(){if(!started){started=true;send('form_start',null);}});f.addEventListener('submit',function(){send('form_submit',null);});});window.addEventListener('message',function(e){if(e.data&&typeof e.data==='string'){try{var d=JSON.parse(e.data);if(d.type==='form_submitted'||d.event==='form_submitted')send('form_submit',null);}catch(x){}}});});
+  })();
+  </script>
+
+  <!-- GA4 Custom Events — Booking Page -->
+  <script>
+  (function(){
+    gtag('event','funnel_stage',{stage:'booking_page',funnel_step:2});
+    gtag('event','booking_page_view');
+
+    // Scroll
+    var sm=new Set();
+    window.addEventListener('scroll',function(){
+      var st=window.scrollY||document.documentElement.scrollTop;
+      var dh=document.documentElement.scrollHeight-window.innerHeight;
+      if(dh<=0)return;
+      var p=Math.round(st/dh*100);
+      [25,50,75,100].forEach(function(m){if(p>=m&&!sm.has(m)){sm.add(m);gtag('event','scroll_milestone',{depth:m,page:'booking'});}});
+    },{passive:true});
+
+    // Engagement time
+    var t0=Date.now();
+    function sendTime(){var s=Math.round((Date.now()-t0)/1000);if(s>2)gtag('event','engagement_time',{seconds:s,page:'booking'});}
+    window.addEventListener('beforeunload',sendTime);
+    document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')sendTime();});
+
+    // Calendly booking confirmed
+    window.addEventListener('message',function(e){
+      if(e.data&&e.data.event&&e.data.event==='calendly.event_scheduled'){
+        gtag('event','schedule',{method:'calendly',page:'booking'});
+        gtag('event','booking_confirmed');
+      }
+      // Also handle string format
+      if(e.data&&typeof e.data==='string'){
+        try{var d=JSON.parse(e.data);if(d.event==='calendly.event_scheduled'){gtag('event','schedule',{method:'calendly'});gtag('event','booking_confirmed');}}catch(x){}
+      }
+    });
+  })();
+  </script>
 </body>
 </html>

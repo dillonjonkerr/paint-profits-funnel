@@ -1732,7 +1732,7 @@
 
 
     /* ===== QUALIFY OFFER + LAYOUT ===== */
-    #qualify { background: var(--bg-secondary); }
+    #qualify { background: var(--bg-secondary); scroll-margin-top: 70px; }
     .qualify-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -3717,18 +3717,16 @@
 
   /* CTA clicks — no FB pixel (fires only on qualified submit) */
 
-  /* ===== CTA SCROLL — smooth scroll to qualify form ===== */
-  document.querySelectorAll('a[href="#qualify"]').forEach(function (a) {
-    a.addEventListener('click', function (e) {
-      e.preventDefault();
-      var target = document.getElementById('qualify');
-      if (!target) return;
-      var barEl = document.getElementById('scarcity-bar');
-      var offset = barEl && barEl.offsetHeight > 0 ? barEl.offsetHeight + 16 : 16;
-      var top = target.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top: top, behavior: 'smooth' });
-    });
-  });
+  /* ===== CTA SCROLL — capture phase so GHL can't intercept ===== */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href="#qualify"]');
+    if (!a) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    var target = document.getElementById('qualify');
+    if (!target) return;
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, true);
 
   /* ===== FB PIXEL — CALENDLY BOOKING ===== */
   window.addEventListener('message', function (e) {

@@ -3757,31 +3757,42 @@
         fbq('track', 'Lead', { content_name: 'survey-submit' });
       }
 
+      var redirectUrl = (data.annual_revenue === 'Under $200K' || data.annual_revenue === '$200K–$500K')
+        ? 'https://www.paintandprofits.com/not-a-fit' + window.location.search
+        : 'https://www.paintandprofits.com/book' + window.location.search;
+
+      if (typeof fbq === 'function') {
+        if (data.annual_revenue === 'Under $200K' || data.annual_revenue === '$200K–$500K') {
+          fbq('trackCustom', 'Disqualified', { revenue: data.annual_revenue });
+        } else {
+          fbq('trackCustom', 'QualifiedLead', { revenue: data.annual_revenue });
+        }
+      }
+
+      // Wait for webhook to complete before navigating — failsafe redirect at 2.5s
+      var redirectTimer = setTimeout(function () { window.location.href = redirectUrl; }, 2500);
+
       fetch('https://services.leadconnectorhq.com/hooks/jAHNXQZA7z9WDtBkVrAm/webhook-trigger/312d1178-2801-400e-b560-c150e700fff6', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
-      }).catch(function (err) { console.warn('Webhook error:', err); });
-
-      if (data.annual_revenue === 'Under $200K' || data.annual_revenue === '$200K–$500K') {
-        if (typeof fbq === 'function') {
-          fbq('trackCustom', 'Disqualified', { revenue: data.annual_revenue });
-        }
-        window.location.href = 'https://www.paintandprofits.com/not-a-fit' + window.location.search;
-      } else {
-        if (typeof fbq === 'function') {
-          fbq('trackCustom', 'QualifiedLead', { revenue: data.annual_revenue });
-        }
-        window.location.href = 'https://www.paintandprofits.com/book' + window.location.search;
-      }
+      }).then(function () {
+        clearTimeout(redirectTimer);
+        window.location.href = redirectUrl;
+      }).catch(function (err) {
+        console.warn('Webhook error:', err);
+        clearTimeout(redirectTimer);
+        window.location.href = redirectUrl;
+      });
     });
   })();
 
   /* ===== FB PIXEL — CTA CLICKS ===== */
+  // Use custom event so CTA clicks don't inflate the standard Lead metric in Ads Manager
   document.querySelectorAll('[data-track="cta-click"]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       if (typeof fbq === 'function') {
-        fbq('track', 'Lead', { content_name: btn.dataset.tier || 'hero-cta' });
+        fbq('trackCustom', 'CTAClick', { content_name: btn.dataset.tier || 'hero-cta' });
       }
     });
   });

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome — Paint & Profits</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+
+  <!-- Meta Pixel — fires Purchase on page load -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '369003615775263');
+    fbq('track', 'PageView');
+    fbq('track', 'Purchase', { value: 3750.00, currency: 'USD' });
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=369003615775263&ev=Purchase&noscript=1" />
+  </noscript>
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FS66H4SSS6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FS66H4SSS6', { send_page_view: true });
+    gtag('event', 'purchase', { value: 3750.00, currency: 'USD', transaction_id: 'pp-onboarding-' + Date.now() });
+  </script>
+
+  <!-- GHL — notify on onboarding viewed -->
+  <script>
+    fetch('https://services.leadconnectorhq.com/hooks/jAHNXQZA7z9WDtBkVrAm/webhook-trigger/312d1178-2801-400e-b560-c150e700fff6', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ page: 'onboarding', event: 'onboarding_viewed', timestamp: new Date().toISOString() })
+    }).catch(function(){});
+  </script>
+
+  <!-- Vercel Speed Insights -->
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --bg-primary:    #0A0A0A;
+      --bg-secondary:  #141414;
+      --bg-tertiary:   #1F1F1F;
+      --text-primary:  #FFFFFF;
+      --text-secondary:#A0A0A0;
+      --text-tertiary: #6B6B6B;
+      --accent:        #2BB3F0;
+      --accent-hover:  #4DC3F5;
+      --accent-deep:   #1A8FCC;
+      --border:        #2A2A2A;
+      --success:       #00FF88;
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    h1, h2, h3 { word-break: break-word; overflow-wrap: break-word; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ===== PLACEHOLDER CONTENT ===== */
+    .placeholder {
+      text-align: center;
+      max-width: 560px;
+      padding: 48px 24px;
+    }
+
+    .placeholder-icon {
+      width: 72px;
+      height: 72px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 32px;
+      color: var(--accent);
+    }
+
+    .placeholder h1 {
+      font-size: clamp(1.75rem, 5vw, 2.75rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .placeholder p {
+      font-size: 1.0625rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-tertiary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="placeholder">
+    <div class="placeholder-icon">
+      <i data-lucide="layout-dashboard" style="width:32px;height:32px;"></i>
+    </div>
+    <span class="badge">Onboarding</span>
+    <h1>Welcome to Paint & Profits</h1>
+    <p>This page is being built. Check back soon.</p>
+  </div>
+
+  <script>
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    window.addEventListener('load', function() { lucide.createIcons(); });
+  </script>
+</body>
+</html>

@@ -3668,10 +3668,6 @@
       data.submitted_at     = new Date().toISOString();
       data.page_url         = window.location.href;
 
-      if (typeof fbq === 'function') {
-        fbq('track', 'Lead', { content_name: 'survey-submit' });
-      }
-
       fetch('https://services.leadconnectorhq.com/hooks/jAHNXQZA7z9WDtBkVrAm/webhook-trigger/312d1178-2801-400e-b560-c150e700fff6', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -3682,22 +3678,55 @@
         if (typeof fbq === 'function') {
           fbq('trackCustom', 'Disqualified', { revenue: data.annual_revenue });
         }
+        // Track disqualified lead attribution
+        (function(){
+          var sid=sessionStorage.getItem('cf_sid');
+          if(sid){
+            var rev=data.annual_revenue||null;
+            fetch('https://funnel-analytics.dillon-f6b.workers.dev/track/lead',{
+              method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
+              body:JSON.stringify({cf_session_id:sid,monthly_revenue:rev,qualified:false,
+                name:(data.first_name||'')+' '+(data.last_name||''),
+                phone:data.phone||null,company:data.company_name||null})
+            }).catch(function(){});
+          }
+        })();
         window.location.href = 'not-a-fit.html';
       } else {
         if (typeof fbq === 'function') {
+          fbq('track', 'Lead', { content_name: 'qualified-survey' });
           fbq('trackCustom', 'QualifiedLead', { revenue: data.annual_revenue });
         }
+        // Track qualified lead attribution
+        (function(){
+          var sid=sessionStorage.getItem('cf_sid');
+          if(sid){
+            var rev=data.annual_revenue||null;
+            fetch('https://funnel-analytics.dillon-f6b.workers.dev/track/lead',{
+              method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
+              body:JSON.stringify({cf_session_id:sid,monthly_revenue:rev,qualified:true,
+                name:(data.first_name||'')+' '+(data.last_name||''),
+                phone:data.phone||null,company:data.company_name||null})
+            }).catch(function(){});
+          }
+        })();
         window.location.href = 'book.html';
       }
     });
   })();
 
-  /* ===== FB PIXEL — CTA CLICKS ===== */
-  document.querySelectorAll('[data-track="cta-click"]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      if (typeof fbq === 'function') {
-        fbq('track', 'Lead', { content_name: btn.dataset.tier || 'hero-cta' });
-      }
+  /* CTA clicks — no FB pixel (fires only on qualified submit) */
+
+  /* ===== CTA SCROLL — smooth scroll to qualify form ===== */
+  document.querySelectorAll('a[href="#qualify"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var target = document.getElementById('qualify');
+      if (!target) return;
+      var barEl = document.getElementById('scarcity-bar');
+      var offset = barEl && barEl.offsetHeight > 0 ? barEl.offsetHeight + 16 : 16;
+      var top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: top, behavior: 'smooth' });
     });
   });
 
@@ -3956,5 +3985,37 @@
     });
   })();
   </script>
+
+<script>
+// Paint & Profits — UTM Attribution Capture v2
+(function(){
+  var W='https://funnel-analytics.dillon-f6b.workers.dev';
+  var PAGE='main';
+  var sid=sessionStorage.getItem('cf_sid');
+  if(!sid){sid='cf_'+Date.now()+'_'+Math.random().toString(36).slice(2,9);sessionStorage.setItem('cf_sid',sid);}
+  var p=new URLSearchParams(window.location.search);
+  var utms={};
+  ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach(function(k){var v=p.get(k);if(v)utms[k]=v;});
+  var has=Object.keys(utms).length>0;
+  if(has&&!localStorage.getItem('pp_ft'))localStorage.setItem('pp_ft',JSON.stringify(utms));
+  if(has)sessionStorage.setItem('pp_lt',JSON.stringify(utms));
+  var ft=JSON.parse(localStorage.getItem('pp_ft')||'{}');
+  var lt=JSON.parse(sessionStorage.getItem('pp_lt')||'{}');
+  fetch(W+'/track/session',{
+    method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
+    body:JSON.stringify({
+      cf_session_id:sid,pp_sid:sessionStorage.getItem('pp_sid'),page:PAGE,
+      landing_page:window.location.pathname,referrer:document.referrer||null,
+      first_utm_source:ft.utm_source||null,first_utm_medium:ft.utm_medium||null,
+      first_utm_campaign:ft.utm_campaign||null,first_utm_content:ft.utm_content||null,
+      first_utm_term:ft.utm_term||null,first_fbclid:ft.fbclid||null,
+      last_utm_source:lt.utm_source||null,last_utm_medium:lt.utm_medium||null,
+      last_utm_campaign:lt.utm_campaign||null,last_utm_content:lt.utm_content||null,
+      last_utm_term:lt.utm_term||null,last_fbclid:lt.fbclid||null,
+      ua:navigator.userAgent
+    })
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>

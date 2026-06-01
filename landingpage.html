@@ -3682,11 +3682,37 @@
         if (typeof fbq === 'function') {
           fbq('trackCustom', 'Disqualified', { revenue: data.annual_revenue });
         }
+        // Track disqualified lead attribution
+        (function(){
+          var sid=sessionStorage.getItem('cf_sid');
+          if(sid){
+            var rev=data.annual_revenue||null;
+            fetch('https://funnel-analytics.dillon-f6b.workers.dev/track/lead',{
+              method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
+              body:JSON.stringify({cf_session_id:sid,monthly_revenue:rev,qualified:false,
+                name:(data.first_name||'')+' '+(data.last_name||''),
+                phone:data.phone||null,company:data.company_name||null})
+            }).catch(function(){});
+          }
+        })();
         window.location.href = '02b-not-a-fit.html';
       } else {
         if (typeof fbq === 'function') {
           fbq('trackCustom', 'QualifiedLead', { revenue: data.annual_revenue });
         }
+        // Track qualified lead attribution
+        (function(){
+          var sid=sessionStorage.getItem('cf_sid');
+          if(sid){
+            var rev=data.annual_revenue||null;
+            fetch('https://funnel-analytics.dillon-f6b.workers.dev/track/lead',{
+              method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
+              body:JSON.stringify({cf_session_id:sid,monthly_revenue:rev,qualified:true,
+                name:(data.first_name||'')+' '+(data.last_name||''),
+                phone:data.phone||null,company:data.company_name||null})
+            }).catch(function(){});
+          }
+        })();
         window.location.href = '02-book.html';
       }
     });
@@ -3717,9 +3743,17 @@
 /* ===== LIVE STATS — Section 4 ===== */
 (function () {
   var STATS_API_BASE = 'https://paint-profits-stats.dillon-f6b.workers.dev/';
-  var triggered = false;
+  var CACHE_KEY = 'pp_stats_v1';
 
-  // date range removed — fixed to 30 days
+  // Last-known real data — renders instantly on every page load (no waiting)
+  var SEED_DATA = {
+    gbp_calls: 774,
+    website_calls_and_forms: 713,
+    ppc_lsa_calls: 410,
+    breakdown: { website_calls_only: 261, form_submissions: 452 },
+    period: { start: '2026-05-02', end: '2026-06-01' },
+    updated_at: '2026-06-01T14:33:16.301Z'
+  };
 
   function timeAgo(date) {
     var seconds = Math.floor((Date.now() - date.getTime()) / 1000);
@@ -3800,25 +3834,31 @@
     if (typeof lucide !== 'undefined') { lucide.createIcons(); }
   }
 
-  var activeDays = 14;
+  // 1. Render immediately from localStorage cache, or fall back to seed
+  var cachedData = null;
+  try {
+    var raw = localStorage.getItem(CACHE_KEY);
+    if (raw) cachedData = JSON.parse(raw);
+  } catch (e) {}
+  renderStats(cachedData || SEED_DATA);
 
-  function loadLiveStats(days) {
-    if (days) activeDays = days;
-    var url = STATS_API_BASE + '?days=' + activeDays;
-    fetch(url)
+  // 2. Fetch fresh data silently in the background
+  function loadLiveStats() {
+    fetch(STATS_API_BASE + '?days=30')
       .then(function (res) {
         if (!res.ok) throw new Error('Stats fetch failed');
         return res.json();
       })
-      .then(renderStats)
-      .catch(function (err) { console.error('Stats fetch error:', err); });
+      .then(function (data) {
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch (e) {}
+        renderStats(data);
+      })
+      .catch(function (err) { console.warn('Stats refresh skipped:', err); });
   }
 
-  // Pre-fetch immediately so data is ready when user scrolls down
+  // Fire immediately + refresh every 5 min
   loadLiveStats();
-  triggered = true;
-
-  setInterval(function(){ loadLiveStats(); }, 5 * 60 * 1000);
+  setInterval(loadLiveStats, 5 * 60 * 1000);
 
 })();
 </script>
@@ -3942,5 +3982,37 @@
     });
   })();
   </script>
+
+<script>
+// Paint & Profits — UTM Attribution Capture v2
+(function(){
+  var W='https://funnel-analytics.dillon-f6b.workers.dev';
+  var PAGE='main';
+  var sid=sessionStorage.getItem('cf_sid');
+  if(!sid){sid='cf_'+Date.now()+'_'+Math.random().toString(36).slice(2,9);sessionStorage.setItem('cf_sid',sid);}
+  var p=new URLSearchParams(window.location.search);
+  var utms={};
+  ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach(function(k){var v=p.get(k);if(v)utms[k]=v;});
+  var has=Object.keys(utms).length>0;
+  if(has&&!localStorage.getItem('pp_ft'))localStorage.setItem('pp_ft',JSON.stringify(utms));
+  if(has)sessionStorage.setItem('pp_lt',JSON.stringify(utms));
+  var ft=JSON.parse(localStorage.getItem('pp_ft')||'{}');
+  var lt=JSON.parse(sessionStorage.getItem('pp_lt')||'{}');
+  fetch(W+'/track/session',{
+    method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
+    body:JSON.stringify({
+      cf_session_id:sid,pp_sid:sessionStorage.getItem('pp_sid'),page:PAGE,
+      landing_page:window.location.pathname,referrer:document.referrer||null,
+      first_utm_source:ft.utm_source||null,first_utm_medium:ft.utm_medium||null,
+      first_utm_campaign:ft.utm_campaign||null,first_utm_content:ft.utm_content||null,
+      first_utm_term:ft.utm_term||null,first_fbclid:ft.fbclid||null,
+      last_utm_source:lt.utm_source||null,last_utm_medium:lt.utm_medium||null,
+      last_utm_campaign:lt.utm_campaign||null,last_utm_content:lt.utm_content||null,
+      last_utm_term:lt.utm_term||null,last_fbclid:lt.fbclid||null,
+      ua:navigator.userAgent
+    })
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>

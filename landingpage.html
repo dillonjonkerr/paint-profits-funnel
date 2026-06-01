@@ -1732,7 +1732,7 @@
 
 
     /* ===== QUALIFY OFFER + LAYOUT ===== */
-    #qualify { background: var(--bg-secondary); }
+    #qualify { background: var(--bg-secondary); scroll-margin-top: 70px; }
     .qualify-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -3733,10 +3733,6 @@
       data.submitted_at     = new Date().toISOString();
       data.page_url         = window.location.href;
 
-      if (typeof fbq === 'function') {
-        fbq('track', 'Lead', { content_name: 'survey-submit' });
-      }
-
       fetch('https://services.leadconnectorhq.com/hooks/jAHNXQZA7z9WDtBkVrAm/webhook-trigger/312d1178-2801-400e-b560-c150e700fff6', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -3750,6 +3746,7 @@
         window.location.href = 'https://www.paintandprofits.com/not-a-fit' + window.location.search;
       } else {
         if (typeof fbq === 'function') {
+          fbq('track', 'Lead', { content_name: 'qualified-survey' });
           fbq('trackCustom', 'QualifiedLead', { revenue: data.annual_revenue });
         }
         window.location.href = 'https://www.paintandprofits.com/book' + window.location.search;

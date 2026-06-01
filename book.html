@@ -619,7 +619,7 @@
   ║  INTEGRATIONS                                            ║
   ║    FB Pixel: 369003615775263  (fires QualifiedLead)      ║
   ║    Calendly: dillon-y1rb/discovery-call-clone            ║
-  ║      → on event_scheduled: redirect to 03-confirmed.html ║
+  ║      → on event_scheduled: redirect to confirmed.html ║
   ╚══════════════════════════════════════════════════════════╝
 -->
 <body>
@@ -899,7 +899,7 @@
           if (typeof fbq === 'function') {
             fbq('track', 'Schedule');
           }
-          window.location.href = '/confirmed';
+          window.location.href = 'confirmed.html';
         }
       }
     });

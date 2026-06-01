@@ -899,30 +899,12 @@
           if (typeof fbq === 'function') {
             fbq('track', 'Schedule');
           }
-          window.location.href = '03-confirmed.html';
+          window.location.href = '/confirmed';
         }
       }
     });
   </script>
 
-
-  <!-- Paint & Profits Funnel Tracker -->
-  <script>
-  (function(){
-    var ENDPOINT='https://funnel-analytics.dillon-f6b.workers.dev/track',PAGE_ID='book';
-    var sid=sessionStorage.getItem('pp_sid');
-    if(!sid){sid='pp_'+Date.now()+'_'+Math.random().toString(36).slice(2,9);sessionStorage.setItem('pp_sid',sid);}
-    function send(t,v){var p={session_id:sid,page:PAGE_ID,event_type:t,value:v,referrer:document.referrer||null,ua:navigator.userAgent};if(t==='time_on_page'||t==='exit'){navigator.sendBeacon(ENDPOINT,JSON.stringify(p));}else{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p),keepalive:true}).catch(function(){});}}
-    send('pageview',null);
-    var t0=Date.now();
-    function bye(){var s=Math.round((Date.now()-t0)/1000);if(s>1)send('time_on_page',s);}
-    window.addEventListener('beforeunload',bye);
-    document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')bye();});
-    var ms=new Set();
-    window.addEventListener('scroll',function(){var st=window.scrollY||document.documentElement.scrollTop,dh=document.documentElement.scrollHeight-window.innerHeight;if(dh<=0)return;var p=Math.round(st/dh*100);[25,50,75,100].forEach(function(m){if(p>=m&&!ms.has(m)){ms.add(m);send('scroll',m);}});},{passive:true});
-    document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('form').forEach(function(f){var started=false;f.addEventListener('focusin',function(){if(!started){started=true;send('form_start',null);}});f.addEventListener('submit',function(){send('form_submit',null);});});window.addEventListener('message',function(e){if(e.data&&typeof e.data==='string'){try{var d=JSON.parse(e.data);if(d.type==='form_submitted'||d.event==='form_submitted')send('form_submit',null);}catch(x){}}});});
-  })();
-  </script>
 
   <!-- GA4 Custom Events — Booking Page -->
   <script>
@@ -960,36 +942,5 @@
   })();
   </script>
 
-<script>
-// Paint & Profits — UTM Attribution Capture v2
-(function(){
-  var W='https://funnel-analytics.dillon-f6b.workers.dev';
-  var PAGE='book';
-  var sid=sessionStorage.getItem('cf_sid');
-  if(!sid){sid='cf_'+Date.now()+'_'+Math.random().toString(36).slice(2,9);sessionStorage.setItem('cf_sid',sid);}
-  var p=new URLSearchParams(window.location.search);
-  var utms={};
-  ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach(function(k){var v=p.get(k);if(v)utms[k]=v;});
-  var has=Object.keys(utms).length>0;
-  if(has&&!localStorage.getItem('pp_ft'))localStorage.setItem('pp_ft',JSON.stringify(utms));
-  if(has)sessionStorage.setItem('pp_lt',JSON.stringify(utms));
-  var ft=JSON.parse(localStorage.getItem('pp_ft')||'{}');
-  var lt=JSON.parse(sessionStorage.getItem('pp_lt')||'{}');
-  fetch(W+'/track/session',{
-    method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
-    body:JSON.stringify({
-      cf_session_id:sid,pp_sid:sessionStorage.getItem('pp_sid'),page:PAGE,
-      landing_page:window.location.pathname,referrer:document.referrer||null,
-      first_utm_source:ft.utm_source||null,first_utm_medium:ft.utm_medium||null,
-      first_utm_campaign:ft.utm_campaign||null,first_utm_content:ft.utm_content||null,
-      first_utm_term:ft.utm_term||null,first_fbclid:ft.fbclid||null,
-      last_utm_source:lt.utm_source||null,last_utm_medium:lt.utm_medium||null,
-      last_utm_campaign:lt.utm_campaign||null,last_utm_content:lt.utm_content||null,
-      last_utm_term:lt.utm_term||null,last_fbclid:lt.fbclid||null,
-      ua:navigator.userAgent
-    })
-  }).catch(function(){});
-})();
-</script>
 </body>
 </html>

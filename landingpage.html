@@ -126,10 +126,9 @@
   <meta name="description" content="For painting companies doing $500K+ per year. We dominate Google Business Profile and Local Services Ads — and guarantee a 10x return in 90 days, or you don't pay.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
   <!-- Meta Pixel Code -->
   <script>
@@ -182,7 +181,6 @@
 
     /* ===== RESET ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    h1, h2, h3 { word-break: break-word; overflow-wrap: break-word; }
     html { scroll-behavior: smooth; }
     body {
       background: var(--bg-primary);
@@ -308,30 +306,29 @@
     .hero-inner {
       position: relative;
       text-align: center;
-      max-width: 960px;
+      max-width: 920px;
       margin: 0 auto;
-      padding: 0 8px;
     }
     .hero-h1 {
       font-size: var(--h1);
       font-weight: 900;
       letter-spacing: -0.03em;
-      line-height: 1.08;
-      margin-bottom: 32px;
+      line-height: 1.04;
+      margin-bottom: 24px;
     }
     .hero-sub {
       font-size: clamp(1.0625rem, 2.5vw, 1.375rem);
       color: var(--text-secondary);
       max-width: 680px;
-      margin: 0 auto 52px;
-      line-height: 1.75;
+      margin: 0 auto 40px;
+      line-height: 1.65;
     }
     .hero-sub strong { color: var(--text-primary); }
     .hero-cta-stack {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
+      gap: 16px;
     }
     .hero-trust {
       font-size: 0.8125rem;
@@ -928,9 +925,6 @@
       gap: 24px;
       margin-top: 48px;
     }
-    @media (max-width: 700px) {
-      .solution-channels { grid-template-columns: 1fr; }
-    }
     .channel-card {
       background: var(--bg-tertiary);
       border: 1px solid var(--border);
@@ -1458,7 +1452,7 @@
         gap: 20px;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
-        padding: 32px calc(50vw - 120px) 48px;
+        padding: 32px 24px 48px;
         margin: 0 -24px;
         scrollbar-width: thin;
         scrollbar-color: var(--accent) var(--bg-tertiary);
@@ -1470,7 +1464,7 @@
         flex: 0 0 240px;
         width: 240px !important;
         transform: rotate(var(--rot));
-        scroll-snap-align: center;
+        scroll-snap-align: start;
       }
       .polaroid:hover {
         transform: rotate(0deg) translateY(-6px);
@@ -2212,14 +2206,6 @@
       :root { --bar-height: 52px; }
       .btn-lg { font-size: 1rem; padding: 16px 28px; }
       .hero-h1 { font-size: 2.25rem; }
-
-      /* Hero trust strip — stack items vertically, drop dots */
-      .hero-trust { display: flex; flex-direction: column; align-items: center; gap: 4px; line-height: 1.6; }
-      .hero-trust .dot { display: none; }
-
-      /* Hero social proof block — tighter vertical rhythm */
-      .qualify-fb-line { margin-top: 6px !important; }
-      .founder-credit { margin-top: 10px; }
       #qualify .section-title { font-size: 1.625rem; line-height: 1.15; }
       #qualify { padding-top: 40px; padding-bottom: 40px; }
       .qualify-offer-title { font-size: 1.25rem; }
@@ -2347,54 +2333,22 @@
       }
       .pricing-card.most-popular::before { display: none; }
     }
-
-    /* ===== MOBILE ADDITIONS (≤ 680px) ===== */
-    @media (max-width: 680px) {
-      /* Scarcity bar — tighter padding */
-      #scarcity-bar { padding: 0 36px 0 12px; }
-      #scarcity-bar .bar-text { font-size: 0.6875rem; letter-spacing: 0.04em; white-space: normal; text-align: center; line-height: 1.3; }
-
-      /* PCA section — unstick text column so it doesn't overlap content */
-      .pca-text { position: static !important; top: auto !important; }
-
-      /* Qualify sticky offer — fix top offset to match bar only */
-      .qualify-offer { top: 52px; }
-
-      /* Pricing grid — full width on small phones */
-      .pricing-grid { max-width: 100% !important; padding: 0 !important; }
-
-      /* Hero padding reduction */
-      #hero { padding: 48px 0 40px; }
-
-      /* Heading size floor */
-      .hero-h1 { font-size: clamp(1.75rem, 8vw, 3rem); }
-
-      /* Polaroid — allow horizontal scroll, contain at section level */
-      .polaroid-stack { max-width: 100% !important; overflow-x: auto; }
-      .pca-expo { overflow-x: clip; }
-
-      /* Section CTA button — tighter on mobile */
-      .section-cta { padding-top: 24px; }
-      .section-cta .btn { padding: 14px 28px; font-size: 0.9375rem; }
-    }
-
-    /* ===== MOBILE ADDITIONS (≤ 480px) ===== */
-    @media (max-width: 480px) {
-      #scarcity-bar { padding: 0 30px 0 8px; }
-      #scarcity-bar .bar-dismiss, #scarcity-bar .bar-dismiss-btn { right: 8px; }
-      .pricing-grid { padding: 0 !important; }
-      .section-y { padding-top: 72px; padding-bottom: 72px; }
-      .stat-card { padding: 20px 16px; }
-      .dashboard-card { padding: 20px 16px; }
-    }
   </style>
-  <script defer src="/_vercel/speed-insights/script.js"></script>
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FS66H4SSS6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FS66H4SSS6', {send_page_view: true});
+  </script>
 </head>
 <body>
 
 <!-- ===== SECTION 1 — STICKY SCARCITY BAR ===== -->
 <div id="scarcity-bar" role="banner" aria-label="Limited availability notice">
-  <i data-lucide="zap" style="width:14px;height:14px;vertical-align:-2px;margin-right:6px;stroke-width:2.5"></i> OUR CLIENTS AVERAGE 128 INBOUND LEADS PER MONTH <i data-lucide="zap" style="width:14px;height:14px;vertical-align:-2px;margin-left:6px;stroke-width:2.5"></i>
+  <i data-lucide="zap" style="width:14px;height:14px;vertical-align:-2px;margin-right:6px;stroke-width:2.5"></i> OUR CLIENTS AVERAGE 128 INBOUND LEADS P.M FROM US <i data-lucide="zap" style="width:14px;height:14px;vertical-align:-2px;margin-left:6px;stroke-width:2.5"></i>
   <button class="bar-dismiss" onclick="dismissBar()" aria-label="Dismiss this notice">×</button>
 </div>
 
@@ -2418,7 +2372,7 @@
           Book Your 15-Min Discovery Call <i data-lucide="arrow-right" style="width:20px;height:20px;stroke-width:2.5;margin-left:8px;vertical-align:middle"></i>
         </a>
         <p class="hero-trust">
-          <span class="trust-item">Month-to-month</span><span class="dot">·</span><span class="trust-item">One painter per service area</span><span class="dot">·</span><span class="trust-item">For U.S. painters only</span>
+          Month-to-month<span class="dot">·</span>One painter per service area<span class="dot">·</span>For U.S. painters only
         </p>
         <p class="qualify-fb-line" style="justify-content:center;margin-top:8px"><span class="qualify-fb-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <a href="https://www.facebook.com/paintandprofits/reviews/?id=100091917426908&sk=reviews" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;"><strong>5.0</strong> &middot; 5-star rating on <svg viewBox="0 0 24 24" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;fill:#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>Facebook</a></p>
 
@@ -2449,7 +2403,7 @@
 <script>
   /* Disable browser scroll restoration — always start at top */
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  window.addEventListener('load', function() { window.scrollTo(0, 0); });
+  window.scrollTo(0, 0);
 
   (function () {
     // ── LOGOS ARRAY ──────────────────────────────────────────────────────────
@@ -2785,7 +2739,7 @@
     <div class="video-carousel" id="videoCarousel" tabindex="0">
 
       <div class="video-card">
-        <iframe loading="lazy"
+        <iframe
           src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Fdillonjonker.coaching%2Fvideos%2F1973189353520496%2F&show_text=false&width=476&t=0"
           width="476" height="476"
           style="border:none;overflow:hidden"
@@ -2796,7 +2750,7 @@
       </div>
 
       <div class="video-card">
-        <iframe loading="lazy"
+        <iframe
           src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F2172908463554436%2F&show_text=false&width=356&t=0"
           width="356" height="476"
           style="border:none;overflow:hidden"
@@ -2807,7 +2761,7 @@
       </div>
 
       <div class="video-card">
-        <iframe loading="lazy"
+        <iframe
           src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Fdillonjonker.coaching%2Fvideos%2F838735655427767%2F&show_text=false&width=267&t=0"
           width="267" height="476"
           style="border:none;overflow:hidden"
@@ -2818,7 +2772,7 @@
       </div>
 
       <div class="video-card">
-        <iframe loading="lazy"
+        <iframe
           src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F750669491317492%2F&show_text=false&width=380&t=0"
           width="380" height="476"
           style="border:none;overflow:hidden"
@@ -2829,7 +2783,7 @@
       </div>
 
       <div class="video-card">
-        <iframe loading="lazy"
+        <iframe
           src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Fdillonjonker.coaching%2Fvideos%2F5046867505538728%2F&show_text=false&width=267&t=0"
           width="267" height="476"
           style="border:none;overflow:hidden"
@@ -3636,7 +3590,7 @@
         step.classList.add('active');
         if (!skipFocus) {
           var firstInput = step.querySelector('input[type="text"], input[type="tel"]');
-          if (firstInput) { setTimeout(function() { firstInput.focus({ preventScroll: true }); }, 60); }
+          if (firstInput) { setTimeout(function() { firstInput.focus(); }, 60); }
         }
       }
       current = n;
@@ -3649,7 +3603,7 @@
       var textInput = step.querySelector('input[type="text"], input[type="tel"]');
       if (textInput && !textInput.value.trim()) {
         textInput.classList.add('qinput-error');
-        textInput.focus({ preventScroll: true });
+        textInput.focus();
         setTimeout(function() { textInput.classList.remove('qinput-error'); }, 1600);
         return;
       }
@@ -3728,19 +3682,24 @@
         if (typeof fbq === 'function') {
           fbq('trackCustom', 'Disqualified', { revenue: data.annual_revenue });
         }
-        window.location.href = '/not-a-fit';
+        window.location.href = 'not-a-fit.html';
       } else {
         if (typeof fbq === 'function') {
           fbq('trackCustom', 'QualifiedLead', { revenue: data.annual_revenue });
         }
-        window.location.href = '/book';
+        window.location.href = 'book.html';
       }
     });
   })();
 
   /* ===== FB PIXEL — CTA CLICKS ===== */
-  // Lead event intentionally NOT fired here — fires on survey submit instead
-  // (see SURVEY GATE section above)
+  document.querySelectorAll('[data-track="cta-click"]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (typeof fbq === 'function') {
+        fbq('track', 'Lead', { content_name: btn.dataset.tier || 'hero-cta' });
+      }
+    });
+  });
 
   /* ===== FB PIXEL — CALENDLY BOOKING ===== */
   window.addEventListener('message', function (e) {
@@ -3758,9 +3717,17 @@
 /* ===== LIVE STATS — Section 4 ===== */
 (function () {
   var STATS_API_BASE = 'https://paint-profits-stats.dillon-f6b.workers.dev/';
-  var triggered = false;
+  var CACHE_KEY = 'pp_stats_v1';
 
-  // date range removed — fixed to 30 days
+  // Last-known real data — renders instantly on every page load (no waiting)
+  var SEED_DATA = {
+    gbp_calls: 774,
+    website_calls_and_forms: 713,
+    ppc_lsa_calls: 410,
+    breakdown: { website_calls_only: 261, form_submissions: 452 },
+    period: { start: '2026-05-02', end: '2026-06-01' },
+    updated_at: '2026-06-01T14:33:16.301Z'
+  };
 
   function timeAgo(date) {
     var seconds = Math.floor((Date.now() - date.getTime()) / 1000);
@@ -3841,25 +3808,31 @@
     if (typeof lucide !== 'undefined') { lucide.createIcons(); }
   }
 
-  var activeDays = 14;
+  // 1. Render immediately from localStorage cache, or fall back to seed
+  var cachedData = null;
+  try {
+    var raw = localStorage.getItem(CACHE_KEY);
+    if (raw) cachedData = JSON.parse(raw);
+  } catch (e) {}
+  renderStats(cachedData || SEED_DATA);
 
-  function loadLiveStats(days) {
-    if (days) activeDays = days;
-    var url = STATS_API_BASE + '?days=' + activeDays;
-    fetch(url)
+  // 2. Fetch fresh data silently in the background
+  function loadLiveStats() {
+    fetch(STATS_API_BASE + '?days=30')
       .then(function (res) {
         if (!res.ok) throw new Error('Stats fetch failed');
         return res.json();
       })
-      .then(renderStats)
-      .catch(function (err) { console.error('Stats fetch error:', err); });
+      .then(function (data) {
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch (e) {}
+        renderStats(data);
+      })
+      .catch(function (err) { console.warn('Stats refresh skipped:', err); });
   }
 
-  // Pre-fetch immediately so data is ready when user scrolls down
+  // Fire immediately + refresh every 5 min
   loadLiveStats();
-  triggered = true;
-
-  setInterval(function(){ loadLiveStats(); }, 5 * 60 * 1000);
+  setInterval(loadLiveStats, 5 * 60 * 1000);
 
 })();
 </script>
@@ -3912,25 +3885,76 @@
 <script>
   if (typeof lucide !== 'undefined') { lucide.createIcons(); }
 </script>
-<script>
-(function() {
-  function initPolaroidAutoScroll() {
-    var stack = document.querySelector('.polaroid-stack');
-    if (!stack || window.innerWidth > 768) return;
-    var STEP = 260;
-    var paused = false;
-    stack.addEventListener('touchstart', function() { paused = true; }, { passive: true });
-    stack.addEventListener('touchend', function() { setTimeout(function() { paused = false; }, 2500); }, { passive: true });
-    setInterval(function() {
-      if (paused) return;
-      var maxScroll = stack.scrollWidth - stack.clientWidth;
-      var next = stack.scrollLeft + STEP;
-      if (next > maxScroll) next = 0;
-      stack.scrollTo({ left: next, behavior: 'smooth' });
-    }, 3000);
-  }
-  document.addEventListener('DOMContentLoaded', initPolaroidAutoScroll);
-})();
-</script>
+
+  <!-- Paint & Profits Funnel Tracker -->
+  <script>
+  (function(){
+    var ENDPOINT='https://funnel-analytics.dillon-f6b.workers.dev/track',PAGE_ID='main';
+    var sid=sessionStorage.getItem('pp_sid');
+    if(!sid){sid='pp_'+Date.now()+'_'+Math.random().toString(36).slice(2,9);sessionStorage.setItem('pp_sid',sid);}
+    function send(t,v){var p={session_id:sid,page:PAGE_ID,event_type:t,value:v,referrer:document.referrer||null,ua:navigator.userAgent};if(t==='time_on_page'||t==='exit'){navigator.sendBeacon(ENDPOINT,JSON.stringify(p));}else{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p),keepalive:true}).catch(function(){});}}
+    send('pageview',null);
+    var t0=Date.now();
+    function bye(){var s=Math.round((Date.now()-t0)/1000);if(s>1)send('time_on_page',s);}
+    window.addEventListener('beforeunload',bye);
+    document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')bye();});
+    var ms=new Set();
+    window.addEventListener('scroll',function(){var st=window.scrollY||document.documentElement.scrollTop,dh=document.documentElement.scrollHeight-window.innerHeight;if(dh<=0)return;var p=Math.round(st/dh*100);[25,50,75,100].forEach(function(m){if(p>=m&&!ms.has(m)){ms.add(m);send('scroll',m);}});},{passive:true});
+    document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('form').forEach(function(f){var started=false;f.addEventListener('focusin',function(){if(!started){started=true;send('form_start',null);}});f.addEventListener('submit',function(){send('form_submit',null);});});window.addEventListener('message',function(e){if(e.data&&typeof e.data==='string'){try{var d=JSON.parse(e.data);if(d.type==='form_submitted'||d.event==='form_submitted')send('form_submit',null);}catch(x){}}});});
+  })();
+  </script>
+
+  <!-- GA4 Custom Events — Main Landing -->
+  <script>
+  (function(){
+    // Funnel stage
+    gtag('event','funnel_stage',{stage:'main_landing',funnel_step:1});
+
+    // Scroll milestones
+    var sm=new Set();
+    window.addEventListener('scroll',function(){
+      var st=window.scrollY||document.documentElement.scrollTop;
+      var dh=document.documentElement.scrollHeight-window.innerHeight;
+      if(dh<=0)return;
+      var p=Math.round(st/dh*100);
+      [25,50,75,100].forEach(function(m){if(p>=m&&!sm.has(m)){sm.add(m);gtag('event','scroll_milestone',{depth:m,page:'main_landing'});}});
+    },{passive:true});
+
+    // Engagement time on exit
+    var t0=Date.now();
+    function sendTime(){var s=Math.round((Date.now()-t0)/1000);if(s>2)gtag('event','engagement_time',{seconds:s,page:'main_landing'});}
+    window.addEventListener('beforeunload',sendTime);
+    document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')sendTime();});
+
+    // Form events — hook into qualification form
+    document.addEventListener('DOMContentLoaded',function(){
+      var forms=document.querySelectorAll('form');
+      forms.forEach(function(f){
+        var started=false;
+        f.addEventListener('focusin',function(){if(!started){started=true;gtag('event','form_start',{form_name:'qualification'});}});
+        f.addEventListener('submit',function(){gtag('event','generate_lead',{form_name:'qualification'});});
+      });
+
+      // Revenue qualification — watch the select/radio for revenue field
+      document.addEventListener('change',function(e){
+        var el=e.target;
+        var val=(el.value||'').toLowerCase();
+        var name=(el.name||el.id||'').toLowerCase();
+        if(name.includes('revenue')||name.includes('income')||el.closest('[data-field="revenue"]')){
+          if(val.includes('500')||val.includes('million')||parseFloat(val)>=500000){
+            gtag('event','qualified_lead',{revenue_range:el.value});
+          } else if(val){
+            gtag('event','disqualified_lead',{revenue_range:el.value});
+          }
+        }
+      });
+
+      // GHL iframe form submissions
+      window.addEventListener('message',function(e){
+        if(e.data&&typeof e.data==='string'){try{var d=JSON.parse(e.data);if(d.type==='form_submitted'||d.event==='form_submitted')gtag('event','generate_lead',{form_name:'qualification_ghl'});}catch(x){}}
+      });
+    });
+  })();
+  </script>
 </body>
 </html>

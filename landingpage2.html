@@ -1074,23 +1074,7 @@
     });
   })();
 
-  /* ===== FB PIXEL — CTA CLICKS ===== */
-  document.querySelectorAll('[data-track="cta-click"]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      if (typeof fbq === 'function') {
-        fbq('track', 'Lead', { content_name: btn.dataset.tier || 'hero-cta' });
-      }
-    });
-  });
-
-  /* ===== FB PIXEL — CALENDLY BOOKING ===== */
-  window.addEventListener('message', function (e) {
-    if (e.data && e.data.event === 'calendly.event_scheduled') {
-      if (typeof fbq === 'function') {
-        fbq('track', 'Schedule');
-      }
-    }
-  });
+  /* CTA clicks: scroll to form only — no pixel event */
 
 })();
 </script>

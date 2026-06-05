@@ -1050,7 +1050,7 @@
             fetch('https://funnel-analytics.dillon-f6b.workers.dev/track/lead', {
               method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
               body: JSON.stringify({ cf_session_id: sid, monthly_revenue: data.annual_revenue, qualified: false,
-                phone: data.phone_number || null, email: data.email || null, company: data.company_name || null })
+                phone: data.phone_number || null, email: data.email || null, company: data.company_name || null, service_area: data.service_area || null })
             }).catch(function() {});
           }
         })();
@@ -1065,7 +1065,7 @@
             fetch('https://funnel-analytics.dillon-f6b.workers.dev/track/lead', {
               method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
               body: JSON.stringify({ cf_session_id: sid, monthly_revenue: data.annual_revenue, qualified: true,
-                phone: data.phone_number || null, email: data.email || null, company: data.company_name || null })
+                phone: data.phone_number || null, email: data.email || null, company: data.company_name || null, service_area: data.service_area || null })
             }).catch(function() {});
           }
         })();

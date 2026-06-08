@@ -531,47 +531,8 @@
 
       <div class="qualify-form-col">
 
-        <form id="qualify-form" novalidate>
-          <div class="form-field-group">
-
-            <div>
-              <label class="form-field-label" for="q-business">Business name</label>
-              <input type="text" id="q-business" name="company_name" placeholder="e.g. Sunrise Painting Co." autocomplete="organization">
-            </div>
-
-            <div>
-              <label class="form-field-label" for="q-location">State / service area</label>
-              <input type="text" id="q-location" name="service_area" placeholder="e.g. Austin, TX" autocomplete="address-level2">
-            </div>
-
-            <div>
-              <label class="form-field-label" for="q-revenue">Annual revenue</label>
-              <select id="q-revenue" name="annual_revenue">
-                <option value="" disabled selected>Select your revenue range</option>
-                <option value="Under $200K">Under $200K</option>
-                <option value="$200K&ndash;$500K">$200K&ndash;$500K</option>
-                <option value="$500K&ndash;$1M">$500K&ndash;$1M</option>
-                <option value="$1M+">$1M+</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="form-field-label" for="q-phone">Phone number</label>
-              <input type="tel" id="q-phone" name="phone_number" placeholder="(555) 000-0000" autocomplete="tel">
-            </div>
-
-            <div>
-              <label class="form-field-label" for="q-email">Email address</label>
-              <input type="email" id="q-email" name="email" placeholder="you@example.com" autocomplete="email">
-            </div>
-
-          </div>
-
-          <button type="submit" class="btn btn-full btn-lg" id="qualify-submit">
-            Book My Call &rarr;
-          </button>
-          <p style="text-align:center;font-size:0.78rem;color:var(--text-tertiary);margin-top:10px;">1 painter per service area &middot; No long contracts</p>
-        </form>
+        <iframe src="https://ghl.paintandprofits.com/widget/survey/tpvHbu9h18Cm8IelPfgw" style="border:none;width:100%;min-height:520px;" scrolling="no" id="tpvHbu9h18Cm8IelPfgw" title="survey"></iframe>
+        <script src="https://ghl.paintandprofits.com/js/form_embed.js"></script>
       </div>
 
     </div>
@@ -978,102 +939,6 @@
     };
   })();
 
-  /* ===== SURVEY GATE — SIMPLIFIED FORM ===== */
-  (function () {
-    var form       = document.getElementById('qualify-form');
-    var notFitSec  = document.getElementById('not-fit');
-    if (notFitSec) notFitSec.style.display = 'none';
-    if (!form) return;
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var business = document.getElementById('q-business');
-      var location = document.getElementById('q-location');
-      var revenue  = document.getElementById('q-revenue');
-      var phone    = document.getElementById('q-phone');
-      var email    = document.getElementById('q-email');
-      var valid = true;
-      [business, location, phone, email].forEach(function(el) {
-        if (!el || !el.value.trim()) {
-          if (el) el.classList.add('qinput-error');
-          valid = false;
-        } else {
-          if (el) el.classList.remove('qinput-error');
-        }
-      });
-      if (!revenue || !revenue.value) {
-        if (revenue) revenue.style.borderColor = '#ef4444';
-        valid = false;
-      } else {
-        if (revenue) revenue.style.borderColor = '';
-      }
-      if (!valid) {
-        var firstErr = form.querySelector('.qinput-error');
-        if (!firstErr && revenue && !revenue.value) firstErr = revenue;
-        if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-      }
-
-      var submitBtn = document.getElementById('qualify-submit');
-      submitBtn.disabled    = true;
-      submitBtn.textContent = 'Booking…';
-
-      var data = {
-        company_name:   business ? business.value.trim() : '',
-        service_area:   location ? location.value.trim() : '',
-        annual_revenue: revenue  ? revenue.value : '',
-        phone_number:   phone    ? phone.value.trim() : '',
-        email:          email    ? email.value.trim() : '',
-        funnel_source:  'Paint & Profits — Main Landing Page V2',
-        submitted_at:   new Date().toISOString(),
-        page_url:       window.location.href
-      };
-      data.qualified = (data.annual_revenue === '$200K–$500K' || data.annual_revenue === '$500K–$1M' || data.annual_revenue === '$1M+') ? 'Yes' : 'No';
-
-      if (typeof fbq === 'function') {
-        fbq('track', 'Lead', { content_name: 'survey-submit-v2' });
-      }
-
-      fetch('https://services.leadconnectorhq.com/hooks/jAHNXQZA7z9WDtBkVrAm/webhook-trigger/312d1178-2801-400e-b560-c150e700fff6', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      }).catch(function (err) { console.warn('Webhook error:', err); });
-
-      if (data.annual_revenue === 'Under $200K') {
-        if (typeof fbq === 'function') {
-          fbq('trackCustom', 'Disqualified', { revenue: data.annual_revenue });
-        }
-        (function(){
-          var sid = sessionStorage.getItem('cf_sid');
-          if (sid) {
-            fetch('https://funnel-analytics.dillon-f6b.workers.dev/track/lead', {
-              method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
-              body: JSON.stringify({ cf_session_id: sid, monthly_revenue: data.annual_revenue, qualified: false,
-                phone: data.phone_number || null, email: data.email || null, company: data.company_name || null, service_area: data.service_area || null })
-            }).catch(function() {});
-          }
-        })();
-        window.location.href = '/not-a-fit';
-      } else {
-        if (typeof fbq === 'function') {
-          fbq('trackCustom', 'QualifiedLead', { revenue: data.annual_revenue });
-        }
-        (function(){
-          var sid = sessionStorage.getItem('cf_sid');
-          if (sid) {
-            fetch('https://funnel-analytics.dillon-f6b.workers.dev/track/lead', {
-              method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
-              body: JSON.stringify({ cf_session_id: sid, monthly_revenue: data.annual_revenue, qualified: true,
-                phone: data.phone_number || null, email: data.email || null, company: data.company_name || null, service_area: data.service_area || null })
-            }).catch(function() {});
-          }
-        })();
-        window.location.href = '/book2';
-      }
-    });
-  })();
-
   /* CTA clicks: scroll to form only — no pixel event */
 
 })();
@@ -1231,6 +1096,5 @@
   }).catch(function(){});
 })();
 </script>
-  <script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6a26bfe28cf84918bea1bd32" data-source="WEB_USER"></script>
 </body>
 </html>

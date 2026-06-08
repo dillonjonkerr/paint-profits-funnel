@@ -24,6 +24,28 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
+  <!-- attribCapture: first/last-touch UTM + cf_session_id -->
+  <script>
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    var utms = ['utm_source','utm_campaign','utm_content','utm_medium','utm_term','fbclid'];
+    utms.forEach(function(key) {
+      var val = params.get(key);
+      if (val) {
+        if (!localStorage.getItem('ft_' + key)) localStorage.setItem('ft_' + key, val);
+        sessionStorage.setItem('lt_' + key, val);
+      }
+    });
+    var cfSession = document.cookie.split('; ').reduce(function(acc, c) {
+      var p = c.split('='); return p[0] === 'cf_session_id' ? p[1] : acc;
+    }, '');
+    if (!cfSession) {
+      cfSession = 'cf_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      document.cookie = 'cf_session_id=' + cfSession + '; path=/; max-age=2592000; SameSite=Lax';
+    }
+  })();
+  </script>
+
   <!-- Meta Pixel Code -->
   <script>
     !function(f,b,e,v,n,t,s)
@@ -531,8 +553,50 @@
 
       <div class="qualify-form-col">
 
-        <iframe src="https://ghl.paintandprofits.com/widget/survey/tpvHbu9h18Cm8IelPfgw" style="border:none;width:100%;min-height:520px;" scrolling="no" id="tpvHbu9h18Cm8IelPfgw" title="survey"></iframe>
-        <script src="https://ghl.paintandprofits.com/js/form_embed.js"></script>
+        <!-- Paint & Profits GHL Survey -->
+        <div class="survey-container" style="
+          width:100%;
+          max-width:520px;
+          margin:0 auto;
+          background:#0F0F0F;
+          border:1px solid #1F1F1F;
+          border-radius:16px;
+          padding:8px;
+          box-shadow:0 0 60px rgba(43,179,240,0.15);
+        ">
+          <iframe
+            src="https://api.leadconnectorhq.com/widget/survey/tpvHbu9h18Cm8IelPfgw"
+            id="ppSurvey"
+            style="border:none;width:100%;min-height:680px;background:transparent;border-radius:12px;display:block;"
+            scrolling="no"
+            title="Paint & Profits Application">
+          </iframe>
+        </div>
+        <script src="https://link.msgsndr.com/js/form_embed.js"></script>
+
+        <script>
+        (function() {
+          var params = new URLSearchParams(window.location.search);
+          var cfSession = document.cookie.split('; ').reduce(function(acc, c) {
+            var p = c.split('='); return p[0] === 'cf_session_id' ? decodeURIComponent(p[1]) : acc;
+          }, '');
+          function getStored(key) {
+            return params.get(key) ||
+              sessionStorage.getItem('lt_' + key) ||
+              localStorage.getItem('ft_' + key) || '';
+          }
+          var iframe = document.getElementById('ppSurvey');
+          if (!iframe) return;
+          var url = new URL(iframe.src);
+          ['utm_source','utm_campaign','utm_content','utm_medium','utm_term','fbclid'].forEach(function(key) {
+            var val = getStored(key);
+            if (val) url.searchParams.set(key, val);
+          });
+          if (cfSession) url.searchParams.set('cf_session_id', cfSession);
+          url.searchParams.set('landing_page', 'v2');
+          iframe.src = url.toString();
+        })();
+        </script>
       </div>
 
     </div>
@@ -831,10 +895,10 @@
   <p class="footer-tagline">For U.S. painting contractors only</p>
   <p class="footer-domain">paintandprofits.com</p>
   <nav class="footer-links" aria-label="Footer navigation">
-    <a href="/privacy">Privacy Policy</a>
-    <a href="/terms">Terms of Service</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
   </nav>
-  <p class="footer-copy">&copy; 2026 Paint &amp; Profits &mdash; Operated by Webwaze LLC. All rights reserved.</p>
+  <p class="footer-copy">&copy; 2026 Paint &amp; Profits. All rights reserved.</p>
 </footer>
 
 <!-- ===== JAVASCRIPT ===== -->

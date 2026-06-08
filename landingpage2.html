@@ -554,24 +554,13 @@
       <div class="qualify-form-col">
 
         <!-- Paint & Profits GHL Survey -->
-        <div class="survey-container" style="
-          width:100%;
-          max-width:520px;
-          margin:0 auto;
-          background:#0F0F0F;
-          border:1px solid #1F1F1F;
-          border-radius:16px;
-          padding:8px;
-          box-shadow:0 0 60px rgba(43,179,240,0.15);
-        ">
-          <iframe
-            src="https://ghl.paintandprofits.com/widget/survey/tpvHbu9h18Cm8IelPfgw"
-            id="ppSurvey"
-            style="border:none;width:100%;min-height:680px;background:transparent;border-radius:12px;display:block;"
-            scrolling="no"
-            title="Paint & Profits Application">
-          </iframe>
-        </div>
+        <iframe
+          src="https://ghl.paintandprofits.com/widget/survey/tpvHbu9h18Cm8IelPfgw"
+          id="tpvHbu9h18Cm8IelPfgw"
+          style="border:none;width:100%;"
+          scrolling="no"
+          title="Paint & Profits Application">
+        </iframe>
         <script src="https://ghl.paintandprofits.com/js/form_embed.js"></script>
 
         <script>
@@ -585,7 +574,7 @@
               sessionStorage.getItem('lt_' + key) ||
               localStorage.getItem('ft_' + key) || '';
           }
-          var iframe = document.getElementById('ppSurvey');
+          var iframe = document.getElementById('tpvHbu9h18Cm8IelPfgw');
           if (!iframe) return;
           var url = new URL(iframe.src);
           ['utm_source','utm_campaign','utm_content','utm_medium','utm_term','fbclid'].forEach(function(key) {

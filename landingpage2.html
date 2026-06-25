@@ -586,17 +586,6 @@
 
       <div class="video-card">
         <iframe
-          src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Fdillonjonker.coaching%2Fvideos%2F838735655427767%2F&show_text=false&width=267&t=0"
-          width="267" height="476"
-          style="border:none;overflow:hidden"
-          scrolling="no" frameborder="0"
-          allowfullscreen="true"
-          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-          title="Painter testimonial video 2"></iframe>
-      </div>
-
-      <div class="video-card">
-        <iframe
           src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Fdillonjonker.coaching%2Fvideos%2F1973189353520496%2F&show_text=false&width=476&t=0"
           width="476" height="476"
           style="border:none;overflow:hidden"
@@ -615,6 +604,17 @@
           allowfullscreen="true"
           allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
           title="Painter testimonial reel 3"></iframe>
+      </div>
+
+      <div class="video-card">
+        <iframe
+          src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Fdillonjonker.coaching%2Fvideos%2F838735655427767%2F&show_text=false&width=267&t=0"
+          width="267" height="476"
+          style="border:none;overflow:hidden"
+          scrolling="no" frameborder="0"
+          allowfullscreen="true"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+          title="Painter testimonial video 2"></iframe>
       </div>
 
       <div class="video-card">
@@ -1256,6 +1256,20 @@
   }).catch(function(){});
 })();
 </script>
+  <script>
+  // Scroll video carousel to card 3 (Peach Painting) on load
+  window.addEventListener('load', function() {
+    var carousel = document.getElementById('videoCarousel');
+    if (!carousel) return;
+    var cards = carousel.querySelectorAll('.video-card');
+    if (cards.length < 3) return;
+    var card = cards[2]; // 0-indexed → position 3
+    var carouselRect = carousel.getBoundingClientRect();
+    var cardRect = card.getBoundingClientRect();
+    var scrollTo = card.offsetLeft - (carousel.offsetWidth / 2) + (card.offsetWidth / 2);
+    carousel.scrollLeft = scrollTo;
+  });
+  </script>
   <script>
   (function() {
     var LOGOS = [

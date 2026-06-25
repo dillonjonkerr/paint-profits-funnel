@@ -21,8 +21,39 @@
   <meta name="description" content="We manage Google Business Profile and Local Services Ads for U.S. painting contractors. Clients average 65+ inbound calls per month. 10x ROI guarantee or full refund.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"></noscript>
+  <!-- Inline Lucide polyfill — only the 5 icons used on this page (~1KB vs 93KB CDN) -->
+  <script>
+  (function(){
+    var ICONS={
+      'zap':'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+      'gift':'<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/>',
+      'check-circle-2':'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+      'arrow-right':'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+      'shield-check':'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>'
+    };
+    var NS='http://www.w3.org/2000/svg';
+    function createIcons(){
+      document.querySelectorAll('[data-lucide]').forEach(function(el){
+        var paths=ICONS[el.getAttribute('data-lucide')];
+        if(!paths)return;
+        var svg=document.createElementNS(NS,'svg');
+        svg.setAttribute('xmlns',NS);svg.setAttribute('width','24');svg.setAttribute('height','24');
+        svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');
+        svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','2');
+        svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');
+        for(var i=0;i<el.attributes.length;i++){
+          var a=el.attributes[i];
+          if(a.name!=='data-lucide')svg.setAttribute(a.name,a.value);
+        }
+        svg.innerHTML=paths;
+        el.parentNode.replaceChild(svg,el);
+      });
+    }
+    window.lucide={createIcons:createIcons};
+  })();
+  </script>
 
   <!-- attribCapture: first/last-touch UTM + cf_session_id -->
   <script>

@@ -466,6 +466,58 @@
       #qualify { padding-top: 40px; padding-bottom: 40px; }
       .swipe-hint { font-size: 0.72rem; padding: 6px 14px; bottom: 12px; }
     }
+    /* ===== INLINE LOGO CAROUSEL (testimonials section) ===== */
+    .logo-carousel-viewport {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 160px;
+      margin-top: 32px;
+      mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+    }
+    .logo-carousel-track {
+      display: flex;
+      align-items: center;
+      gap: 80px;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      will-change: transform;
+    }
+    .logo-item {
+      flex: 0 0 auto;
+      width: 130px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: transform 600ms cubic-bezier(0.4,0,0.2,1), filter 600ms cubic-bezier(0.4,0,0.2,1), opacity 600ms cubic-bezier(0.4,0,0.2,1);
+      transform: scale(0.7);
+      filter: grayscale(100%);
+      opacity: 0.45;
+    }
+    .logo-item img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .logo-item.spotlight {
+      transform: scale(1.3) translateY(-8px);
+      filter: grayscale(0%);
+      opacity: 1;
+    }
+    .logo-item.spotlight::after {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      background: radial-gradient(circle, rgba(43,179,240,0.25) 0%, transparent 60%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    @media (max-width: 768px) {
+      .logo-carousel-viewport { height: 120px; }
+      .logo-item { width: 90px; height: 65px; }
+      .logo-carousel-track { gap: 50px; }
+    }
   </style>
 
   <!-- Google Analytics 4 -->
@@ -521,6 +573,9 @@
     <div class="testimonials-header">
       <span class="eyebrow">Hear It From Painters</span>
       <h2 class="section-title">Real Painters. Real Results.</h2>
+      <div class="logo-carousel-viewport" style="margin-top:24px;">
+        <div class="logo-carousel-track" id="logo-track-testimonials"></div>
+      </div>
     </div>
   </div>
 
@@ -1201,5 +1256,52 @@
   }).catch(function(){});
 })();
 </script>
+  <script>
+  (function() {
+    var LOGOS = [
+      { src: 'Client Logos/PEEK_painting_LOGO.png.webp',                 alt: 'Peek Painting' },
+      { src: 'Client Logos/elite-paint-company (1).webp',                alt: 'Elite Painting' },
+      { src: 'Client Logos/BPLogo-Horizontal-fullcolor.webp',            alt: 'BP Painting' },
+      { src: 'Client Logos/Funky-Painting-Final-Logos-250-web.png.webp', alt: 'Funky Painting' },
+      { src: 'Client Logos/Pro-vision logo (2).png',                     alt: 'Pro-Vision Painting' },
+      { src: 'Client Logos/Frame-2085665223.png.webp',                   alt: 'Client' },
+      { src: 'Client Logos/Logo (2).png',                                alt: 'Client' },
+      { src: 'Client Logos/Logo (3).png',                                alt: 'Client' },
+      { src: 'Client Logos/logo (1).png',                                alt: 'Client' },
+      { src: 'Client Logos/logo-1.avif',                                 alt: 'Client' },
+    ];
+    var track = document.getElementById('logo-track-testimonials');
+    if (!track) return;
+    var viewport = track.parentElement;
+    var items = LOGOS.concat(LOGOS);
+    track.innerHTML = items.map(function(l) {
+      return '<div class="logo-item"><img src="' + l.src + '" alt="' + l.alt + '" loading="lazy"></div>';
+    }).join('');
+    var position = 0, isPaused = false;
+    viewport.addEventListener('mouseenter', function(){ isPaused = true; });
+    viewport.addEventListener('mouseleave', function(){ isPaused = false; });
+    function getHalf(){ return track.scrollWidth / 2; }
+    function updateSpotlight(){
+      var vc = viewport.getBoundingClientRect();
+      var center = vc.left + vc.width / 2;
+      var els = track.querySelectorAll('.logo-item');
+      var best = null, bestDist = Infinity;
+      els.forEach(function(el){
+        var r = el.getBoundingClientRect();
+        var d = Math.abs(r.left + r.width/2 - center);
+        if(d < bestDist){ bestDist = d; best = el; }
+      });
+      els.forEach(function(el){ el.classList.remove('spotlight'); });
+      if(best) best.classList.add('spotlight');
+    }
+    function animate(){
+      if(!isPaused){ position += 0.8; if(position >= getHalf()) position = 0; }
+      track.style.transform = 'translateY(-50%) translateX(-' + position + 'px)';
+      updateSpotlight();
+      requestAnimationFrame(animate);
+    }
+    animate();
+  })();
+  </script>
 </body>
 </html>

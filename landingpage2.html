@@ -687,11 +687,9 @@
 
       <div class="qualify-form-col">
 
-        <!-- Paint & Profits GHL Survey -->
-        <!-- Iframe is injected via script so UTMs are baked into the initial src.
-             Changing iframe.src after form_embed.js loads causes it to double-initialise
-             (two overlapping input widgets), so we create the element with the final URL. -->
-        <div id="ghl-survey-container"></div>
+        <!-- Paint & Profits GHL Survey — lazy-loaded via IntersectionObserver
+             so reCAPTCHA + GHL scripts (~800KB) don't block initial page render. -->
+        <div id="ghl-survey-container" style="min-height:700px;"></div>
         <script>
         (function() {
           var params = new URLSearchParams(window.location.search);
@@ -703,20 +701,34 @@
               sessionStorage.getItem('lt_' + key) ||
               localStorage.getItem('ft_' + key) || '';
           }
-          var surveyUrl = new URL('https://ghl.paintandprofits.com/widget/survey/tpvHbu9h18Cm8IelPfgw');
-          ['utm_source','utm_campaign','utm_content','utm_medium','utm_term','fbclid'].forEach(function(key) {
-            var val = getStored(key);
-            if (val) surveyUrl.searchParams.set(key, val);
-          });
-          if (cfSession) surveyUrl.searchParams.set('cf_session_id', cfSession);
-          surveyUrl.searchParams.set('landing_page', 'v2');
-          var iframe = document.createElement('iframe');
-          iframe.src = surveyUrl.toString();
-          iframe.id = 'tpvHbu9h18Cm8IelPfgw';
-          iframe.style.cssText = 'border:none;width:100%;min-height:700px;';
-          iframe.setAttribute('scrolling', 'no');
-          iframe.title = 'Paint & Profits Application';
-          document.getElementById('ghl-survey-container').appendChild(iframe);
+          function injectIframe() {
+            var container = document.getElementById('ghl-survey-container');
+            if (!container || container.dataset.loaded) return;
+            container.dataset.loaded = '1';
+            var surveyUrl = new URL('https://ghl.paintandprofits.com/widget/survey/tpvHbu9h18Cm8IelPfgw');
+            ['utm_source','utm_campaign','utm_content','utm_medium','utm_term','fbclid'].forEach(function(key) {
+              var val = getStored(key);
+              if (val) surveyUrl.searchParams.set(key, val);
+            });
+            if (cfSession) surveyUrl.searchParams.set('cf_session_id', cfSession);
+            surveyUrl.searchParams.set('landing_page', 'v2');
+            var iframe = document.createElement('iframe');
+            iframe.src = surveyUrl.toString();
+            iframe.id = 'tpvHbu9h18Cm8IelPfgw';
+            iframe.style.cssText = 'border:none;width:100%;min-height:700px;';
+            iframe.setAttribute('scrolling', 'no');
+            iframe.title = 'Paint & Profits Application';
+            container.appendChild(iframe);
+          }
+          var container = document.getElementById('ghl-survey-container');
+          if ('IntersectionObserver' in window) {
+            var obs = new IntersectionObserver(function(entries) {
+              if (entries[0].isIntersecting) { injectIframe(); obs.disconnect(); }
+            }, { rootMargin: '400px' });
+            obs.observe(container);
+          } else {
+            injectIframe();
+          }
         })();
         </script>
       </div>

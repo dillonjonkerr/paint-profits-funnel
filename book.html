@@ -23,10 +23,11 @@
     s.parentNode.insertBefore(t,s)}(window,document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '369003615775263');
-    fbq('track', 'PageView');
+    fbq('trackCustom', 'OfflinePageView');
+    fbq('trackCustom', 'OfflineLead');
   </script>
   <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=369003615775263&ev=PageView&noscript=1"
+    src="https://www.facebook.com/tr?id=369003615775263&ev=OfflinePageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
 
@@ -897,9 +898,6 @@
     window.addEventListener('message', function (e) {
       if (isCalendlyEvent(e)) {
         if (e.data.event === 'calendly.event_scheduled') {
-          if (typeof fbq === 'function') {
-            fbq('track', 'Schedule');
-          }
           window.location.href = '/confirmed';
         }
       }

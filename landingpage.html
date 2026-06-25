@@ -141,10 +141,10 @@
     s.parentNode.insertBefore(t,s)}(window,document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '369003615775263');
-    fbq('track', 'PageView');
+    fbq('trackCustom', 'OfflinePageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=369003615775263&ev=PageView&noscript=1"
+    src="https://www.facebook.com/tr?id=369003615775263&ev=OfflinePageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
 
@@ -3754,7 +3754,7 @@
       data.page_url         = window.location.href;
 
       if (typeof fbq === 'function') {
-        fbq('track', 'Lead', { content_name: 'survey-submit' });
+        fbq('trackCustom', 'OfflineLead', { content_name: 'survey-submit' });
       }
 
       var redirectUrl = (data.annual_revenue === 'Under $200K' || data.annual_revenue === '$200K–$500K')
@@ -3763,9 +3763,9 @@
 
       if (typeof fbq === 'function') {
         if (data.annual_revenue === 'Under $200K' || data.annual_revenue === '$200K–$500K') {
-          fbq('trackCustom', 'Disqualified', { revenue: data.annual_revenue });
+          fbq('trackCustom', 'OfflineDisqualified', { revenue: data.annual_revenue });
         } else {
-          fbq('trackCustom', 'QualifiedLead', { revenue: data.annual_revenue });
+          fbq('trackCustom', 'OfflineQualifiedLead', { revenue: data.annual_revenue });
         }
       }
 
@@ -3792,7 +3792,7 @@
   document.querySelectorAll('[data-track="cta-click"]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       if (typeof fbq === 'function') {
-        fbq('trackCustom', 'CTAClick', { content_name: btn.dataset.tier || 'hero-cta' });
+        fbq('trackCustom', 'OfflineCTAClick', { content_name: btn.dataset.tier || 'hero-cta' });
       }
     });
   });
@@ -3801,7 +3801,7 @@
   window.addEventListener('message', function (e) {
     if (e.data && e.data.event === 'calendly.event_scheduled') {
       if (typeof fbq === 'function') {
-        fbq('track', 'Schedule');
+        fbq('trackCustom', 'OfflineSchedule');
       }
     }
   });

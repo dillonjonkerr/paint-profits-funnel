@@ -3408,81 +3408,10 @@
       <span class="form-progress-label" id="form-progress-label">Question 1 of 6</span>
     </div>
 
-    <form id="qualify-form" novalidate>
-
-      <div class="qstep active" data-step="1" id="qstep-1">
-        <p class="qstep-q"><span class="qnum-badge">1</span> What&rsquo;s your first name?</p>
-        <input type="text" id="q-firstname" name="first_name" placeholder="e.g. Mike" autocomplete="given-name">
-        <p class="qstep-q" style="margin-top:16px"><span class="qnum-badge" style="opacity:0.5">+</span> And your painting business name?</p>
-        <input type="text" id="q-business" name="company_name" placeholder="e.g. Sunrise Painting Co." autocomplete="organization">
-        <div class="qnav">
-          <button type="button" class="btn btn-full" onclick="qNext(1)">Continue <i data-lucide="arrow-right" style="width:18px;height:18px;margin-left:6px;vertical-align:middle"></i></button>
-        </div>
-      </div>
-
-      <div class="qstep" data-step="2" id="qstep-2">
-        <p class="qstep-q"><span class="qnum-badge">2</span> What city and state do you operate in?</p>
-        <input type="text" id="q-location" name="service_area" placeholder="e.g. Austin, TX" autocomplete="address-level2">
-        <div class="qnav">
-          <button type="button" class="qnav-back" onclick="qPrev(1)">&larr; Back</button>
-          <button type="button" class="btn btn-full" onclick="qNext(2)">Continue <i data-lucide="arrow-right" style="width:18px;height:18px;margin-left:6px;vertical-align:middle"></i></button>
-        </div>
-      </div>
-
-      <div class="qstep" data-step="3" id="qstep-3">
-        <p class="qstep-q"><span class="qnum-badge">3</span> What&rsquo;s your current annual revenue?</p>
-        <div class="radio-group">
-          <label class="radio-opt"><input type="radio" name="annual_revenue" value="Under $200K"> Under $200K</label>
-          <label class="radio-opt"><input type="radio" name="annual_revenue" value="$200K–$500K"> $200K&ndash;$500K</label>
-          <label class="radio-opt"><input type="radio" name="annual_revenue" value="$500K–$1M"> $500K&ndash;$1M</label>
-          <label class="radio-opt"><input type="radio" name="annual_revenue" value="$1M+"> $1M+</label>
-        </div>
-        <div class="qnav">
-          <button type="button" class="qnav-back" onclick="qPrev(2)">&larr; Back</button>
-        </div>
-      </div>
-
-      <div class="qstep" data-step="4" id="qstep-4">
-        <p class="qstep-q"><span class="qnum-badge">4</span> What are you currently spending on marketing per month?</p>
-        <div class="radio-group">
-          <label class="radio-opt"><input type="radio" name="monthly_ad_spend" value="$0 — nothing right now"> $0 &mdash; nothing right now</label>
-          <label class="radio-opt"><input type="radio" name="monthly_ad_spend" value="Under $1K"> Under $1K</label>
-          <label class="radio-opt"><input type="radio" name="monthly_ad_spend" value="$1K–$3K"> $1K&ndash;$3K</label>
-          <label class="radio-opt"><input type="radio" name="monthly_ad_spend" value="$3K+"> $3K+</label>
-        </div>
-        <div class="qnav">
-          <button type="button" class="qnav-back" onclick="qPrev(3)">&larr; Back</button>
-        </div>
-      </div>
-
-      <div class="qstep" data-step="5" id="qstep-5">
-        <p class="qstep-q"><span class="qnum-badge">5</span> What&rsquo;s your biggest lead source right now?</p>
-        <div class="radio-group">
-          <label class="radio-opt"><input type="radio" name="current_lead_source" value="Word of mouth / referrals"> Word of mouth / referrals</label>
-          <label class="radio-opt"><input type="radio" name="current_lead_source" value="Angi or HomeAdvisor"> Angi or HomeAdvisor</label>
-          <label class="radio-opt"><input type="radio" name="current_lead_source" value="Google"> Google</label>
-          <label class="radio-opt"><input type="radio" name="current_lead_source" value="Facebook"> Facebook</label>
-          <label class="radio-opt"><input type="radio" name="current_lead_source" value="Nothing consistent"> Nothing consistent</label>
-        </div>
-        <div class="qnav">
-          <button type="button" class="qnav-back" onclick="qPrev(4)">&larr; Back</button>
-        </div>
-      </div>
-
-      <div class="qstep" data-step="6" id="qstep-6">
-        <p class="qstep-q"><span class="qnum-badge">6</span> What&rsquo;s your last name?</p>
-        <input type="text" id="q-lastname" name="last_name" placeholder="e.g. Johnson" autocomplete="family-name">
-        <p class="qstep-q" style="margin-top:16px"><span class="qnum-badge" style="opacity:0.5">+</span> Best phone number to reach you?</p>
-        <input type="tel" id="q-phone" name="phone_number" placeholder="(555) 000-0000" autocomplete="tel">
-        <p class="qstep-q" style="margin-top:16px;font-size:0.95rem;font-weight:600;opacity:0.7"><span style="font-size:0.75rem;background:var(--bg-tertiary);border:1px solid var(--border);color:var(--text-tertiary);padding:2px 8px;border-radius:20px;margin-right:8px;font-weight:700;letter-spacing:0.05em">OPTIONAL</span> Your website URL?</p>
-        <input type="url" id="q-website" name="website_url" placeholder="e.g. https://sunrisepainting.com" autocomplete="url">
-        <div class="qnav">
-          <button type="button" class="qnav-back" onclick="qPrev(5)">&larr; Back</button>
-          <button type="submit" class="btn btn-full btn-lg" id="qualify-submit">Check If I Qualify <i data-lucide="arrow-right" style="width:18px;height:18px;margin-left:6px;vertical-align:middle"></i></button>
-        </div>
-      </div>
-
-    </form>
+    <div id="ghl-survey-container" style="width:100%;min-height:700px;">
+      <iframe src="https://ghl.paintandprofits.com/widget/survey/gAGziK7F3QjfNelKfaWP" style="border:none;width:100%;min-height:700px;" scrolling="no" id="gAGziK7F3QjfNelKfaWP" title="survey"></iframe>
+    </div>
+    <script src="https://ghl.paintandprofits.com/js/form_embed.js"></script>
       </div><!-- /.qualify-form-col -->
 
     </div><!-- /.qualify-layout -->
@@ -3725,66 +3654,18 @@
     showStep(1, true); // skipFocus on init to prevent page scrolling to form
   })();
 
-  /* ===== SURVEY GATE ===== */
+  /* ===== GHL SURVEY — UTM INJECTION ===== */
   (function () {
-    var form       = document.getElementById('qualify-form');
-    var qualifySec = document.getElementById('qualify');
-    var bookSec    = document.getElementById('book');
-    var notFitSec  = document.getElementById('not-fit');
-
-    if (bookSec)   bookSec.style.display   = 'none';
-    if (notFitSec) notFitSec.style.display = 'none';
-
-    if (!form) return;
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      var submitBtn = document.getElementById('qualify-submit');
-      submitBtn.disabled    = true;
-      submitBtn.textContent = 'Checking…';
-
-      var data = {};
-      new FormData(form).forEach(function (v, k) { data[k] = v; });
-
-      // Metadata
-      data.funnel_source   = 'Paint & Profits — Main Landing Page';
-      data.qualified        = (data.annual_revenue === '$500K–$1M' || data.annual_revenue === '$1M+') ? 'Yes' : 'No';
-      data.submitted_at     = new Date().toISOString();
-      data.page_url         = window.location.href;
-
-      if (typeof fbq === 'function') {
-        fbq('trackCustom', 'OfflineLead', { content_name: 'survey-submit' });
-      }
-
-      var redirectUrl = (data.annual_revenue === 'Under $200K' || data.annual_revenue === '$200K–$500K')
-        ? 'https://www.paintandprofits.com/not-a-fit' + window.location.search
-        : 'https://www.paintandprofits.com/book' + window.location.search;
-
-      if (typeof fbq === 'function') {
-        if (data.annual_revenue === 'Under $200K' || data.annual_revenue === '$200K–$500K') {
-          fbq('trackCustom', 'OfflineDisqualified', { revenue: data.annual_revenue });
-        } else {
-          fbq('trackCustom', 'OfflineQualifiedLead', { revenue: data.annual_revenue });
-        }
-      }
-
-      // Wait for webhook to complete before navigating — failsafe redirect at 2.5s
-      var redirectTimer = setTimeout(function () { window.location.href = redirectUrl; }, 2500);
-
-      fetch('https://services.leadconnectorhq.com/hooks/jAHNXQZA7z9WDtBkVrAm/webhook-trigger/312d1178-2801-400e-b560-c150e700fff6', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      }).then(function () {
-        clearTimeout(redirectTimer);
-        window.location.href = redirectUrl;
-      }).catch(function (err) {
-        console.warn('Webhook error:', err);
-        clearTimeout(redirectTimer);
-        window.location.href = redirectUrl;
-      });
-    });
+    var BASE = 'https://ghl.paintandprofits.com/widget/survey/gAGziK7F3QjfNelKfaWP';
+    var params = new URLSearchParams(window.location.search);
+    var utmKeys = ['utm_source','utm_campaign','utm_content','utm_medium','utm_term','fbclid'];
+    var q = new URLSearchParams();
+    utmKeys.forEach(function(k) { if (params.get(k)) q.set(k, params.get(k)); });
+    var sid = (document.cookie.match(/cf_session_id=([^;]+)/) || [])[1];
+    if (sid) q.set('cf_session_id', sid);
+    q.set('landing_page', 'landingpage');
+    var iframe = document.getElementById('gAGziK7F3QjfNelKfaWP');
+    if (iframe && q.toString()) iframe.src = BASE + '?' + q.toString();
   })();
 
   /* ===== FB PIXEL — CTA CLICKS ===== */

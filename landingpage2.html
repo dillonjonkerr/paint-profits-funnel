@@ -1283,5 +1283,16 @@
     animate();
   })();
   </script>
+  <script>
+  /* Override any GHL routing — all submissions go to /book2, no disqualification */
+  window.addEventListener('message', function(e) {
+    var d;
+    try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch(x) { return; }
+    if (d && (d.type === 'form_submitted' || d.event === 'form_submitted')) {
+      e.stopImmediatePropagation();
+      window.top.location.href = '/book2';
+    }
+  }, true);
+  </script>
 </body>
 </html>

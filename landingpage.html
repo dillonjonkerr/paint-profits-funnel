@@ -3411,6 +3411,17 @@
     <div id="ghl-survey-container" style="width:100%;min-height:700px;">
       <iframe src="https://ghl.paintandprofits.com/widget/survey/gAGziK7F3QjfNelKfaWP" style="border:none;width:100%;min-height:700px;" scrolling="no" id="gAGziK7F3QjfNelKfaWP" title="survey"></iframe>
     </div>
+    <script>
+    /* Override any GHL routing — all submissions go to /book, no disqualification */
+    window.addEventListener('message', function(e) {
+      var d;
+      try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch(x) { return; }
+      if (d && (d.type === 'form_submitted' || d.event === 'form_submitted')) {
+        e.stopImmediatePropagation();
+        window.top.location.href = '/book';
+      }
+    }, true);
+    </script>
     <script src="https://ghl.paintandprofits.com/js/form_embed.js"></script>
       </div><!-- /.qualify-form-col -->
 
